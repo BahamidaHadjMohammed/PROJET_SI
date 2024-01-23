@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% load custom_filters %}
+<html>
+<head>
+    <title>Liste des Médecins</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .delete-link {
+            color: #FF0000;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .modify-link {
+            color: #007BFF;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .modify-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Liste dossiers médicaux</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                {% for field in fields %}
+                    <th>{{ field }}</th>
+                {% endfor %}
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dossier in dossiers %}
+                <tr>
+                    {% for field in fields %}
+                        <td>{{ dossier|getattr:field }}</td>
+                    {% endfor %}
+                    <td>
+                        <a href="{% url 'modify_dossier' dossier.id doctor_id %}" class="modify-link">Modify</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

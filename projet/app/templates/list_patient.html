@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% load custom_filters %}
+<html>
+<head>
+    <title>Liste des Patients</title>
+    <style>
+        .center-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        body {
+            margin: 0; 
+            padding: 20px; 
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd; 
+            padding: 12px; 
+            text-align: left; 
+        }
+
+        th {
+            background-color: #f2f2f2; 
+        }
+
+        .delete-link {
+            color: #FF0000; 
+            font-weight: bold; 
+            text-decoration: none; 
+        }
+
+        .delete-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Liste des patients</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                {% for field in fields %}
+                    <th>{{ field }}</th>
+                {% endfor %}
+                <th>DATE_NAISSANCE</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patients %}
+                <tr>
+                    {% for field in fields %}
+                        <td>{{ patient|getattr:field }}</td>
+                    {% endfor %}
+                    <td>{{ patient.DATE_NAISSANCE }}</td>
+                    <td>
+                        <a href="{% url 'delete_patient' patient.NSS %}" class="delete-link"> Supprimer </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button class="center-button" onclick="window.location.href='http://127.0.0.1:8000/add_patient/';">Add patient</button>
+
+</body>
+</html>

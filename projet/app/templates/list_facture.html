@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+{% load custom_filters %}
+<html>
+<head>
+    <title>Liste des Factures</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .delete-link {
+            color: #FF0000;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .center-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .center-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Liste des factures</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                {% for field in fields %}
+                    <th>{{ field }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for factures in facture %}
+                <tr>
+                    {% for field in fields %}
+                        <td>{{ factures|getattr:field }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button class="center-button" onclick="window.location.href='http://127.0.0.1:8000/add_facture/';">Add facture</button>
+
+</body>
+</html>

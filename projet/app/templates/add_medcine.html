@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% load custom_filters %}
+<html>
+<head>
+    <title>Add Medicine</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .delete-link {
+            color: #FF0000;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .center-button {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Liste des Médecins</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                {% for field in fields %}
+                    <th>{{ field }}</th>
+                {% endfor %}
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doctor in doctors %}
+                <tr>
+                    {% for field in fields %}
+                        <td>{{ doctor|getattr:field }}</td>
+                    {% endfor %}
+                    <td>
+                        <a href="{% url 'delete_doctor' doctor.id %}" class="delete-link"> Supprimer </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h1>Add Medicine</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="center-button">Save</button>
+    </form>
+</body>
+</html>
